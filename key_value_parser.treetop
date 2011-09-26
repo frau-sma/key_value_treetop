@@ -1,0 +1,6 @@
+
+grammar KeyValue
+  rule input
+    '' <Input>
+  end
+end
