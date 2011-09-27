@@ -1,3 +1,4 @@
+# vi: set fileencoding=utf-8 :
 require './parser.rb'
 
 describe Parser do
@@ -56,6 +57,10 @@ describe Parser do
 
     it 'allows tabs and newline characters as well' do
       Parser.parse("\tkey\n\n\t\n=   \n125.37\t\n").should == {:key => 125.37}
+    end
+
+    it 'correctly reads strings containing Unicode characters' do
+      Parser.parse('book = "βιβλος"').should == {:book => 'βιβλος'}
     end
 
     it 'raises an exception when input is key=<string> without quotes' do
