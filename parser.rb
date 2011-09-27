@@ -1,4 +1,3 @@
-
 require 'treetop'
 
 BASE_PATH = File.expand_path(File.dirname(__FILE__)).freeze
@@ -14,7 +13,7 @@ class Parser
     tree = @@parser.parse(data)
 
     if(tree.nil?)
-      raise Exception, "Parse error at offset: #{@@parser.index}."
+      raise Exception, "Parse error #{@@parser.failure_reason} at offset: #{@@parser.index}."
     end
 
     return tree.to_hash
