@@ -26,6 +26,14 @@ describe Parser do
       Parser.parse('baz="quux quuux quuuux"').should == { :baz => 'quux quuux quuuux' }
     end
 
+    it 'allows for single quotes inside strings' do
+      Parser.parse(%Q|example="This is a 'test', they say."|).should == {:example => "This is a 'test', they say."}
+    end
+
+    it 'allows for escaped quotes inside strings' do
+      Parser.parse('example="This is a \"test\", they say."').should == {:example => 'This is a "test", they say.'}
+    end
+
     it 'allows spaces before the key' do
       Parser.parse('    foo=1').should == {:foo => 1}
     end
@@ -44,6 +52,10 @@ describe Parser do
 
     it 'allows spaces everywhere!' do
       Parser.parse(' foo = "my new string" ').should == {:foo => 'my new string'}
+    end
+
+    it 'allows tabs and newline characters as well' do
+      Parser.parse("\tkey\n\n\t\n=   \n125.37\t\n").should == {:key => 125.37}
     end
 
     it 'raises an exception when input is key=<string> without quotes' do

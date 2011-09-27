@@ -24,8 +24,9 @@ grammar KeyValue
   end
   
   rule string
-    '"' (!'"' . / '\"')* '"' <StringLiteral>
-#   [a-zA-Z] [a-zA-Z0-9_-]* <StringLiteral>
+    '"' ([^"\\] / "\\" . )* '"' <StringLiteral>
+#    '"' ((!'"' .) / '\"')* '"' <StringLiteral>
+#    [a-zA-Z] [a-zA-Z0-9_-]* <StringLiteral>
   end
 
   rule space
