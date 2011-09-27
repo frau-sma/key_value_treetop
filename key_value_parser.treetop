@@ -1,25 +1,30 @@
 grammar KeyValue
   rule option_list
-    key '=' value <OptionList>
+    option* <OptionList>
+  end
+
+  rule option
+    key '=' value <Option>
   end
   
   rule key
-  	[a-zA-Z] [a-zA-Z0-9_-]* <Key>
+    [a-zA-Z] [a-zA-Z0-9_-]* <Key>
   end
   
   rule value
-  	float / integer / string '' <Value>
+    (float / integer / string) '' <Value>
   end
   
   rule float
-  	('+' / '-')? [0-9]+ '.' [0-9]+ <FloatLiteral>
+    ('+' / '-')? [0-9]+ '.' [0-9]+ <FloatLiteral>
   end
   
   rule integer
-  	('+' / '-')? [0-9]+ <IntegerLiteral>
+    ('+' / '-')? [0-9]+ <IntegerLiteral>
   end
   
   rule string
-  	[a-zA-Z] [a-zA-Z0-9_-]* <StringLiteral>
+    '"' (!'"' . / '\"')* '"' <StringLiteral>
+#   [a-zA-Z] [a-zA-Z0-9_-]* <StringLiteral>
   end
 end

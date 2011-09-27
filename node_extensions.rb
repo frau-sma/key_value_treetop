@@ -1,8 +1,17 @@
 module KeyValue
   class OptionList < Treetop::Runtime::SyntaxNode
     def to_hash
-    	return {} if terminal?
-      { key.to_sym => value.to_value }
+      hash = {}
+      self.elements.each do |option|
+        hash.merge!(option.to_hash)
+      end
+      hash
+    end
+  end
+
+  class Option < Treetop::Runtime::SyntaxNode
+    def to_hash
+      return {key.to_sym => value.to_value}
     end
   end
   
@@ -32,7 +41,7 @@ module KeyValue
 
   class StringLiteral < Treetop::Runtime::SyntaxNode
   	def to_value
-  		text_value.to_s
+  		return eval text_value
   	end
   end
 end
