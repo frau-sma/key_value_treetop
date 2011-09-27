@@ -26,8 +26,32 @@ describe Parser do
       Parser.parse('baz="quux quuux quuuux"').should == { :baz => 'quux quuux quuuux' }
     end
 
+    it 'allows spaces before the key' do
+      Parser.parse('    foo=1').should == {:foo => 1}
+    end
+
+    it 'allows spaces after the key' do
+      Parser.parse('foo       =1').should == {:foo => 1}
+    end
+
+    it 'allows spaces before the value' do
+      Parser.parse('foo=   1').should == {:foo => 1}
+    end
+
+    it 'allows spaces after the value' do
+      Parser.parse('foo=1        ').should == {:foo => 1}
+    end
+
+    it 'allows spaces everywhere!' do
+      Parser.parse(' foo = "my new string" ').should == {:foo => 'my new string'}
+    end
+
     it 'raises an exception when input is key=<string> without quotes' do
       expect {Parser.parse('quuux=quuuux')}.should raise_exception
+    end
+
+    it 'returns a hash containing two items for input that contains two items' do
+      Parser.parse("foo = 1.9\nbar = 77.4").should == {:foo => 1.9, :bar => 77.4}
     end
   end
 end

@@ -4,7 +4,7 @@ grammar KeyValue
   end
 
   rule option
-    key '=' value <Option>
+    space? key space? '=' space? value space? <Option>
   end
   
   rule key
@@ -26,5 +26,9 @@ grammar KeyValue
   rule string
     '"' (!'"' . / '\"')* '"' <StringLiteral>
 #   [a-zA-Z] [a-zA-Z0-9_-]* <StringLiteral>
+  end
+
+  rule space
+    [\s]+
   end
 end
